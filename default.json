@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared Renovate preset for bjorntirsen repositories",
+  "extends": [
+    "config:recommended",
+    "schedule:weekly",
+    ":semanticCommits",
+    ":label(dependencies)",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "timezone": "Europe/Stockholm",
+  "minimumReleaseAge": "3 days",
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": "1 day",
+    "labels": ["dependencies", "security"]
+  },
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "description": "Group stable non-major updates into one weekly PR and automerge it when CI passes. 0.x packages are excluded: their minor bumps are breaking by semver convention.",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "automerge": true
+    },
+    {
+      "description": "Node runtime majors (.nvmrc, engines, Dockerfile, CI) and @types/node move together and only on purpose. Approve from the Dependency Dashboard when migrating to the next LTS.",
+      "matchPackageNames": ["node", "@types/node"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "vitest and its plugins must share a major version",
+      "matchPackageNames": ["vitest", "@vitest/**"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "vitest major"
+    }
+  ]
+}
