@@ -27,6 +27,12 @@ Add repo-specific `packageRules` (version caps, holds, extra groups) below the `
 | GitHub Actions | Pinned to commit digests. |
 | Commit messages | Conventional Commits (`chore(deps): …`) on Renovate's own PRs only. |
 
+## Maintenance
+
+- This repo has its own `renovate.json` extending this preset, so Renovate keeps its CI actions and `.nvmrc` current like any other repo.
+- CI re-validates the preset weekly against the latest Renovate release; a red scheduled run means an option was deprecated or renamed. Fix it here and every repo picks it up on its next Renovate run.
+- Changes here apply to all consuming repos at once. Repo-specific exceptions belong in that repo's `renovate.json`.
+
 ## Repo requirements
 
 - Renovate GitHub App installed on the repo.

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "This repo eats its own preset: keeps the CI actions and .nvmrc current",
+  "extends": ["local>bjorntirsen/renovate-config"]
+}
