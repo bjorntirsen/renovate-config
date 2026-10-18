@@ -5,6 +5,11 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  # Re-validate weekly against the latest Renovate release, so a deprecated
+  # option in the preset fails here before it breaks every consuming repo.
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,3 +24,5 @@ jobs:
           node-version-file: ".nvmrc"
       - name: Validate preset
         run: npx --yes --package renovate -- renovate-config-validator --strict default.json
+      - name: Validate repo config
+        run: npx --yes --package renovate -- renovate-config-validator --strict
