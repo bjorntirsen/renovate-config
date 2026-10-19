@@ -3,12 +3,12 @@
   "description": "Shared Renovate preset for bjorntirsen repositories",
   "extends": [
     "config:recommended",
-    "schedule:weekly",
     ":semanticCommits",
     ":label(dependencies)",
     "helpers:pinGitHubActionDigests"
   ],
   "timezone": "Europe/Stockholm",
+  "schedule": ["* 0-17 * * 1"],
   "minimumReleaseAge": "3 days",
   "vulnerabilityAlerts": {
     "minimumReleaseAge": "1 day",
@@ -17,12 +17,25 @@
   "platformAutomerge": true,
   "packageRules": [
     {
-      "description": "Group stable non-major updates into one weekly PR and automerge it when CI passes. 0.x packages are excluded: their minor bumps are breaking by semver convention.",
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "description": "Group stable non-major updates into one weekly PR and automerge it when CI passes. 0.x minors are excluded: their minor bumps are breaking by semver convention.",
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
       "matchCurrentVersion": "!/^v?0\\./",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "automerge": true
+    },
+    {
+      "description": "0.x patches are non-breaking, so they join the weekly group and automerge too",
+      "matchUpdateTypes": ["patch"],
+      "matchCurrentVersion": "/^v?0\\./",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "automerge": true
+    },
+    {
+      "description": "Pinning ships no new code, and digests carry no release timestamp, so the release-age gate would hold pin PRs pending forever",
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "minimumReleaseAge": null
     },
     {
       "description": "Node runtime majors (.nvmrc, engines, Dockerfile, CI) and @types/node move together and only on purpose. Approve from the Dependency Dashboard when migrating to the next LTS.",
