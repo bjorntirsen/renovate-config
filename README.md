@@ -17,7 +17,7 @@ Add repo-specific `packageRules` (version caps, holds, extra groups) below the `
 
 | | |
 |---|---|
-| Schedule | Weekly, early Monday (Europe/Stockholm). Security fixes any time. |
+| Schedule | Weekly, any time on Monday (Europe/Stockholm). Security fixes any time. |
 | Release age | Waits 3 days after a release before proposing it (1 day for security fixes). |
 | Non-major | Stable minor/patch/pin/digest updates grouped into one PR, automerged on green CI. |
 | 0.x packages | Separate PRs, not automerged (minor bumps are breaking). |
