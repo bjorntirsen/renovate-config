@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "For repos linted with typescript-eslint (e.g. via eslint-config-next). Extend as github>bjorntirsen/renovate-config:typescript-eslint",
+  "packageRules": [
+    {
+      "description": "Mirrors the typescript peer range of typescript-eslint. typescript-eslint only warns on an unsupported TypeScript, so CI would pass while its rules quietly degrade. Raise this ceiling only when typescript-eslint raises its own; every consuming repo follows.",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<6.1.0"
+    }
+  ]
+}

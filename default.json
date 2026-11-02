@@ -33,13 +33,35 @@
       "automerge": true
     },
     {
+      "description": "0.x build/format tooling whose minors CI fully exercises (format:check, build). Their history is consistently green, so they join the weekly group instead of waiting for a manual merge. Add a tool here only when CI would catch a breaking minor.",
+      "matchPackageNames": ["oxfmt", "tsdown", "prettier-plugin-tailwindcss"],
+      "matchUpdateTypes": ["minor"],
+      "matchCurrentVersion": "/^v?0\\./",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "automerge": true
+    },
+    {
       "description": "Pinning ships no new code, and digests carry no release timestamp, so the release-age gate would hold pin PRs pending forever",
       "matchUpdateTypes": ["pin", "pinDigest"],
       "minimumReleaseAge": null
     },
     {
-      "description": "Node runtime majors (.nvmrc, engines, Dockerfile, CI) and @types/node move together and only on purpose. Approve from the Dependency Dashboard when migrating to the next LTS.",
-      "matchPackageNames": ["node", "@types/node"],
+      "description": "GitHub Action majors are mostly runtime bumps and the PR's own CI runs them, so automerge on green. Only `uses:` refs (depType action): tool versions passed via `with:` (node-version, java-version) are runtime choices, not action upgrades.",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action"],
+      "matchUpdateTypes": ["major"],
+      "automerge": true
+    },
+    {
+      "description": "actions/setup-node is sometimes referenced by full semver tag; loose versioning keeps Renovate from misreading it",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["actions/setup-node"],
+      "versioning": "loose"
+    },
+    {
+      "description": "Node runtime majors (.nvmrc, engines, Dockerfile, CI) and @types/node move together and only on purpose. Approve from the Dependency Dashboard when migrating to the next LTS. actions/node-versions is how Renovate names the setup-node `node-version` input.",
+      "matchPackageNames": ["node", "@types/node", "actions/node-versions"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     },
@@ -48,6 +70,12 @@
       "matchPackageNames": ["vitest", "@vitest/**"],
       "matchUpdateTypes": ["major"],
       "groupName": "vitest major"
+    },
+    {
+      "description": "Drizzle ORM and kit must move together. Both are 0.x, so minors are breaking and stay manual; patches still ride the weekly group.",
+      "matchPackageNames": ["drizzle-orm", "drizzle-kit"],
+      "matchUpdateTypes": ["minor", "major"],
+      "groupName": "drizzle"
     }
   ]
 }
