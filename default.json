@@ -47,10 +47,11 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "GitHub Action majors are mostly runtime bumps and the PR's own CI runs them, so automerge on green. Only `uses:` refs (depType action): tool versions passed via `with:` (node-version, java-version) are runtime choices, not action upgrades.",
+      "description": "GitHub Action majors are mostly runtime bumps and the PR's own CI runs them, so automerge on green. Only `uses:` refs (depType action): tool versions passed via `with:` (node-version, java-version) are runtime choices, not action upgrades. Actions that only run in push-to-master deploy jobs never run in PR CI, so their majors stay manual.",
       "matchManagers": ["github-actions"],
       "matchDepTypes": ["action"],
       "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["!docker/login-action"],
       "automerge": true
     },
     {

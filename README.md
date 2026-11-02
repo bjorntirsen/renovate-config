@@ -27,7 +27,7 @@ Prefer adding rules here over repo-specific `packageRules`: a rule that is harml
 | Node / `@types/node` majors | Held on the Dependency Dashboard until approved (includes the `setup-node` `node-version` input). |
 | vitest + `@vitest/*` majors | Grouped. |
 | `drizzle-orm` + `drizzle-kit` minors/majors | Grouped, manual review. |
-| GitHub Actions | Pinned to commit digests. Majors automerge on green CI. |
+| GitHub Actions | Pinned to commit digests. Majors automerge on green CI, except deploy-only actions (`docker/login-action`) that PR CI never runs. |
 | Commit messages | Conventional Commits (`chore(deps): …`) on Renovate's own PRs only. |
 
 ## Maintenance
