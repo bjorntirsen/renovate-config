@@ -8,17 +8,28 @@
     "helpers:pinGitHubActionDigests"
   ],
   "timezone": "Europe/Stockholm",
-  "schedule": ["* * * * 1"],
+  "schedule": [
+    "* * * * 1"
+  ],
   "minimumReleaseAge": "3 days",
   "vulnerabilityAlerts": {
     "minimumReleaseAge": "1 day",
-    "labels": ["dependencies", "security"]
+    "labels": [
+      "dependencies",
+      "security"
+    ]
   },
   "platformAutomerge": true,
   "packageRules": [
     {
       "description": "Group stable non-major updates into one weekly PR and automerge it when CI passes. 0.x minors are excluded: their minor bumps are breaking by semver convention.",
-      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
       "matchCurrentVersion": "!/^v?0\\./",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
@@ -26,7 +37,9 @@
     },
     {
       "description": "0.x patches are non-breaking, so they join the weekly group and automerge too",
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "matchCurrentVersion": "/^v?0\\./",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
@@ -34,8 +47,14 @@
     },
     {
       "description": "0.x build/format tooling whose minors CI fully exercises (format:check, build). Their history is consistently green, so they join the weekly group instead of waiting for a manual merge. Add a tool here only when CI would catch a breaking minor.",
-      "matchPackageNames": ["oxfmt", "tsdown", "prettier-plugin-tailwindcss"],
-      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [
+        "oxfmt",
+        "tsdown",
+        "prettier-plugin-tailwindcss"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "matchCurrentVersion": "/^v?0\\./",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
@@ -43,40 +62,73 @@
     },
     {
       "description": "Pinning ships no new code, and digests carry no release timestamp, so the release-age gate would hold pin PRs pending forever",
-      "matchUpdateTypes": ["pin", "pinDigest"],
+      "matchUpdateTypes": [
+        "pin",
+        "pinDigest"
+      ],
       "minimumReleaseAge": null
     },
     {
       "description": "GitHub Action majors are mostly runtime bumps and the PR's own CI runs them, so automerge on green. Only `uses:` refs (depType action): tool versions passed via `with:` (node-version, java-version) are runtime choices, not action upgrades. Actions that only run in push-to-master deploy jobs never run in PR CI, so their majors stay manual.",
-      "matchManagers": ["github-actions"],
-      "matchDepTypes": ["action"],
-      "matchUpdateTypes": ["major"],
-      "matchPackageNames": ["!docker/login-action"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepTypes": [
+        "action"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "matchPackageNames": [
+        "!docker/login-action"
+      ],
       "automerge": true
     },
     {
       "description": "actions/setup-node is sometimes referenced by full semver tag; loose versioning keeps Renovate from misreading it",
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["actions/setup-node"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "actions/setup-node"
+      ],
       "versioning": "loose"
     },
     {
       "description": "Node runtime majors (.nvmrc, engines, Dockerfile, CI) and @types/node move together and only on purpose. Approve from the Dependency Dashboard when migrating to the next LTS. actions/node-versions is how Renovate names the setup-node `node-version` input.",
-      "matchPackageNames": ["node", "@types/node", "actions/node-versions"],
-      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "node",
+        "@types/node",
+        "actions/node-versions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "dependencyDashboardApproval": true
     },
     {
       "description": "vitest and its plugins must share a major version",
-      "matchPackageNames": ["vitest", "@vitest/**"],
-      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "vitest",
+        "@vitest/**"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "vitest major"
     },
     {
       "description": "Drizzle ORM and kit must move together. Both are 0.x, so minors are breaking and stay manual; patches still ride the weekly group.",
-      "matchPackageNames": ["drizzle-orm", "drizzle-kit"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchPackageNames": [
+        "drizzle-orm",
+        "drizzle-kit"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
       "groupName": "drizzle"
     }
-  ]
+  ],
+  "minimumReleaseAgePackageManagerSync": true
 }
